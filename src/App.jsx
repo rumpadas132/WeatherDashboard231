@@ -19,7 +19,7 @@ import './App.css'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
-const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY || 'ef65215e4b5cf832cd04005df546c7bb'
+const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY
 const DEFAULT_LOCATION = 'London, UK'
 
 const formatTime = (value) => new Date(value * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -140,6 +140,12 @@ function App() {
   }
 
   const fetchWeatherByCoords = async (location, name, country) => {
+    if (!API_KEY) {
+      setError('Missing OpenWeather API key. Set VITE_OPENWEATHER_API_KEY in your environment.')
+      setStatusMessage('OpenWeather API key is required')
+      return
+    }
+
     setLoading(true)
     setError('')
     setStatusMessage('Loading weather data...')
@@ -177,6 +183,12 @@ function App() {
   }
 
   const searchCity = async (term) => {
+    if (!API_KEY) {
+      setError('Missing OpenWeather API key. Set VITE_OPENWEATHER_API_KEY in your environment.')
+      setStatusMessage('OpenWeather API key is required')
+      return
+    }
+
     if (!term.trim()) {
       setError('Enter a city name to search')
       return
